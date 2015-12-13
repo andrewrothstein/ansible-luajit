@@ -17,4 +17,11 @@
   args:
     chdir: /opt/{{luajit_name}}
     creates: /usr/local/bin/luajit
+
+- name: destroying luajit src....
+  when: luajit_destroy_src
+  file: path='{{item}}' state=absent
+  with_items:
+    - '/opt/{{luajit_name}}'
+    - '/tmp/{{luajit_tgz}}'
   
