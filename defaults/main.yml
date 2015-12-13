@@ -1,0 +1,4 @@
+---
+# defaults file for luajit
+luajit_ver : '2.0.4'
+luajit_mirror : 'http://luajit.org/download'
