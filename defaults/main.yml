@@ -1,7 +1,9 @@
 ---
 # defaults file for luajit
 luajit_ver : '2.0.4'
-luajit_mirror : 'http://luajit.org/download'
+luajit_mirror : http://luajit.org/download
+
+luajit_escalate: True
 
 #luajit_destroy_src will delete all downloaded stuffs before completing the role
 luajit_destroy_src : False

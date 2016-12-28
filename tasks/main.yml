@@ -1,27 +1,43 @@
 ---
 # tasks file for luajit
 - name: download tgz...
-  get_url: url='{{luajit_url}}' dest='/tmp/{{luajit_tgz}}'
+  become: '{{luajit_escalate}}'
+  become_user: root
+  get_url: >
+    url={{luajit_url}}
+    dest=/tmp/{{luajit_tgz}}
+    mode=0644
 
 - name: unarchiving to /opt...
-  unarchive: copy=no src='/tmp/{{luajit_tgz}}' dest='/opt'
+  become: '{{luajit_escalate}}'
+  become_user: root
+  unarchive: >
+    copy=no
+    src=/tmp/{{luajit_tgz}}
+    dest=/opt
 
 - name: building...
+  become: '{{luajit_escalate}}'
+  become_user: root
   command: make
   args:
     chdir: /opt/{{luajit_name}}
     creates: /opt/{{luajit_name}}/src/luajit
 
 - name: installing...
+  become: '{{luajit_escalate}}'
+  become_user: root
   command: make install
   args:
     chdir: /opt/{{luajit_name}}
     creates: /usr/local/bin/luajit
 
 - name: destroying luajit src....
+  become: '{{luajit_escalate}}'
+  become_user: root
   when: luajit_destroy_src
-  file: path='{{item}}' state=absent
   with_items:
-    - '/opt/{{luajit_name}}'
-    - '/tmp/{{luajit_tgz}}'
+    - /opt/{{luajit_name}}
+    - /tmp/{{luajit_tgz}}
+  file: path={{item}} state=absent
   
