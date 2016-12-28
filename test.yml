@@ -2,3 +2,4 @@
 - hosts: all
   roles:
     - role: '{{playbook_dir}}'
+      luajit_destroy_src: True
