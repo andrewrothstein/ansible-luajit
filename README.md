@@ -1,3 +1,4 @@
+[![CircleCI](https://circleci.com/gh/andrewrothstein/ansible-luajit.svg?style=svg)](https://circleci.com/gh/andrewrothstein/ansible-luajit)
 andrewrothstein.luajit
 =========
 
