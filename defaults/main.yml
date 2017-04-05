@@ -5,7 +5,7 @@ luajit_mirror : http://luajit.org/download
 
 luajit_escalate: True
 
-luajit_src_parent_dir: /usr/local/src
+luajit_parent_srcs_dir: /usr/local/src
 
 #luajit_destroy_src will delete all downloaded stuffs before completing the role
 luajit_destroy_src : False

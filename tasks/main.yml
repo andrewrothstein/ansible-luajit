@@ -12,7 +12,7 @@
   become: '{{luajit_escalate}}'
   become_user: root
   file:
-    path: '{{luajit_parent_src_dir}}'
+    path: '{{luajit_parent_srcs_dir}}'
     state: directory
     mode: 0755
     
@@ -22,7 +22,7 @@
   unarchive:
     copy: no
     src: /tmp/{{luajit_tgz}}
-    dest: '{{luajit_parent_src_dir}}'
+    dest: '{{luajit_parent_srcs_dir}}'
     creates: '{{luajit_src_root_dir}}'
 
 - name: building...
