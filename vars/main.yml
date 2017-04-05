@@ -3,3 +3,4 @@
 luajit_name : LuaJIT-{{luajit_ver}}
 luajit_tgz : '{{luajit_name}}.tar.gz'
 luajit_url : http://luajit.org/download/{{luajit_tgz}}
+luajit_src_root_dir: '{{luajait_parent_src_dir}}/{{luajit_name}}'

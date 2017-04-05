@@ -3,33 +3,42 @@
 - name: download tgz...
   become: '{{luajit_escalate}}'
   become_user: root
-  get_url: >
-    url={{luajit_url}}
-    dest=/tmp/{{luajit_tgz}}
-    mode=0644
+  get_url:
+    url: '{{luajit_url}}'
+    dest: /tmp/{{luajit_tgz}}
+    mode: 0644
 
-- name: unarchiving to /opt...
+- name: mkdirs
   become: '{{luajit_escalate}}'
   become_user: root
-  unarchive: >
-    copy=no
-    src=/tmp/{{luajit_tgz}}
-    dest=/opt
+  file:
+    path: '{{luajit_parent_src_dir}}'
+    state: directory
+    mode: 0755
+    
+- name: unarchiving...
+  become: '{{luajit_escalate}}'
+  become_user: root
+  unarchive:
+    copy: no
+    src: /tmp/{{luajit_tgz}}
+    dest: '{{luajit_parent_src_dir}}'
+    creates: '{{luajit_src_root_dir}}'
 
 - name: building...
   become: '{{luajit_escalate}}'
   become_user: root
   command: make
   args:
-    chdir: /opt/{{luajit_name}}
-    creates: /opt/{{luajit_name}}/src/luajit
+    chdir: '{{luajit_src_root_dir}}'
+    creates: '{{luajit_src_root_dir}}/src/luajit'
 
 - name: installing...
   become: '{{luajit_escalate}}'
   become_user: root
   command: make install
   args:
-    chdir: /opt/{{luajit_name}}
+    chdir: '{{luajit_src_root_dir}}'
     creates: /usr/local/bin/luajit
 
 - name: destroying luajit src....
@@ -37,7 +46,9 @@
   become_user: root
   when: luajit_destroy_src
   with_items:
-    - /opt/{{luajit_name}}
+    - '{{luajit_src_root_dir}}'
     - /tmp/{{luajit_tgz}}
-  file: path={{item}} state=absent
+  file:
+    path: '{{item}}'
+    state: absent
   
