@@ -20,7 +20,7 @@
   become: '{{luajit_escalate}}'
   become_user: root
   unarchive:
-    copy: no
+    remote_src: no
     src: /tmp/{{luajit_tgz}}
     dest: '{{luajit_parent_srcs_dir}}'
     creates: '{{luajit_src_root_dir}}'
