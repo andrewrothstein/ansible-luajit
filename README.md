@@ -1,6 +1,6 @@
-[![CircleCI](https://circleci.com/gh/andrewrothstein/ansible-luajit.svg?style=svg)](https://circleci.com/gh/andrewrothstein/ansible-luajit)
 andrewrothstein.luajit
 =========
+[![Build Status](https://travis-ci.org/andrewrothstein/ansible-luajit.svg?branch=master)](https://travis-ci.org/andrewrothstein/ansible-luajit)
 
 Builds and installs [LuaJIT](https://luajit.org)
 
