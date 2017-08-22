@@ -5,6 +5,7 @@
   become_user: root
   get_url:
     url: '{{luajit_url}}'
+    checksum: '{{luajit_checksum}}'
     dest: /tmp/{{luajit_tgz}}
     mode: 0644
 
