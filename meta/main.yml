@@ -1,39 +1,36 @@
----
+dependencies:
+- role: andrewrothstein.unarchive-deps
+  version: v1.0.12
+- role: andrewrothstein.gcc-toolbox
+  version: v1.0.7
 galaxy_info:
   author: Andrew Rothstein
-  description: luajit role
   company: BlackRock
+  description: luajit role
+  galaxy_tags:
+  - lua
+  - jit
+  - luajit
   license:
-    - MIT
+  - MIT
   min_ansible_version: 1.2
   platforms:
-    - name: EL
-      versions:
-        - 7
-    - name: Fedora
-      versions:
-        - 23
-        - 24
-        - 25
-        - 26
-    - name: Ubuntu
-      versions:
-        - trusty
-        - xenial
-    - name: Debian
-      versions:
-        - jessie
-    - name: Alpine
-      versions:
-        - all
-  galaxy_tags:
-    - lua
-    - jit
-    - luajit
-
-dependencies:
-  - role: andrewrothstein.unarchive-deps
-    version: v1.0.10
-  - role: andrewrothstein.gcc-toolbox
-    version: v1.0.7
-  
+  - name: EL
+    versions:
+    - 7
+  - name: Fedora
+    versions:
+    - 23
+    - 24
+    - 25
+    - 26
+  - name: Ubuntu
+    versions:
+    - trusty
+    - xenial
+  - name: Debian
+    versions:
+    - jessie
+  - name: Alpine
+    versions:
+    - all
