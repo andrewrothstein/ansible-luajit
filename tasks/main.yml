@@ -1,55 +1,55 @@
 ---
 # tasks file for luajit
 - name: download tgz...
-  become: '{{luajit_escalate}}'
+  become: '{{ luajit_escalate }}'
   become_user: root
   get_url:
-    url: '{{luajit_url}}'
-    checksum: '{{luajit_checksum}}'
-    dest: /tmp/{{luajit_tgz}}
+    url: '{{ luajit_url }}'
+    checksum: '{{ luajit_checksum }}'
+    dest: /tmp/{{ luajit_tgz }}
     mode: 0644
 
 - name: mkdirs
-  become: '{{luajit_escalate}}'
+  become: '{{ luajit_escalate }}'
   become_user: root
   file:
-    path: '{{luajit_parent_srcs_dir}}'
+    path: '{{ luajit_parent_srcs_dir }}'
     state: directory
     mode: 0755
     
 - name: unarchiving...
-  become: '{{luajit_escalate}}'
+  become: '{{ luajit_escalate }}'
   become_user: root
   unarchive:
     remote_src: yes
-    src: /tmp/{{luajit_tgz}}
-    dest: '{{luajit_parent_srcs_dir}}'
-    creates: '{{luajit_src_root_dir}}'
+    src: /tmp/{{ luajit_tgz }}
+    dest: '{{ luajit_parent_srcs_dir }}'
+    creates: '{{ luajit_src_root_dir }}'
 
 - name: building...
-  become: '{{luajit_escalate}}'
+  become: '{{ luajit_escalate }}'
   become_user: root
   command: make
   args:
-    chdir: '{{luajit_src_root_dir}}'
-    creates: '{{luajit_src_root_dir}}/src/luajit'
+    chdir: '{{ luajit_src_root_dir }}'
+    creates: '{{ luajit_src_root_dir }}/src/luajit'
 
 - name: installing...
-  become: '{{luajit_escalate}}'
+  become: '{{ luajit_escalate }}'
   become_user: root
   command: make install
   args:
-    chdir: '{{luajit_src_root_dir}}'
+    chdir: '{{ luajit_src_root_dir }}'
     creates: /usr/local/bin/luajit
 
 - name: destroying luajit src....
-  become: '{{luajit_escalate}}'
+  become: '{{ luajit_escalate }}'
   become_user: root
   when: luajit_destroy_src
   with_items:
-    - '{{luajit_src_root_dir}}'
-    - /tmp/{{luajit_tgz}}
+    - '{{ luajit_src_root_dir }}'
+    - /tmp/{{ luajit_tgz }}
   file:
-    path: '{{item}}'
+    path: '{{ item }}'
     state: absent
   
