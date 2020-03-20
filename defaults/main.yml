@@ -1,14 +1,14 @@
 ---
 # defaults file for luajit
-luajit_ver : '2.0.5'
-luajit_mirror : http://luajit.org/download
+luajit_ver: '2.0.5'
+luajit_mirror: http://luajit.org/download
 
 luajit_escalate: True
 
 luajit_parent_srcs_dir: /usr/local/src
 
 #luajit_destroy_src will delete all downloaded stuffs before completing the role
-luajit_destroy_src : False
+luajit_destroy_src: False
 
 luajit_checksums:
   # http://luajit.org/download/LuaJIT-2.0.4.tar.gz
