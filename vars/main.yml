@@ -5,3 +5,4 @@ luajit_tgz: '{{ luajit_name }}.tar.gz'
 luajit_url: http://luajit.org/download/{{ luajit_tgz }}
 luajit_src_root_dir: '{{ luajit_parent_srcs_dir }}/{{ luajit_name }}'
 luajit_checksum: '{{ luajit_checksums[luajit_ver] }}'
+luajit_target_exe: /usr/local/bin/luajit
