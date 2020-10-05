@@ -18,6 +18,9 @@ galaxy_info:
   - name: Alpine
     versions:
     - all
+  - name: Archlinux
+    versions:
+    - all
   - name: Debian
     versions:
     - buster
@@ -36,4 +39,5 @@ galaxy_info:
   - name: Ubuntu
     versions:
     - bionic
+    - focal
     - xenial
