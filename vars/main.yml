@@ -2,6 +2,7 @@
 # vars file for luajit
 luajit_name: LuaJIT-{{ luajit_ver }}
 luajit_tgz: '{{ luajit_name }}.tar.gz'
+luajit_tmp_tgz: /tmp/{{ luajit_tgz }}
 luajit_url: http://luajit.org/download/{{ luajit_tgz }}
 luajit_src_root_dir: '{{ luajit_parent_srcs_dir }}/{{ luajit_name }}'
 luajit_checksum: '{{ luajit_checksums[luajit_ver] }}'

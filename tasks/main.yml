@@ -14,7 +14,7 @@
       get_url:
         url: '{{ luajit_url }}'
         checksum: '{{ luajit_checksum }}'
-        dest: /tmp/{{ luajit_tgz }}
+        dest: '{{ luajit_tmp_tgz }}'
         mode: 0644
     - name: mkdir {{ luajit_parent_srcs_dir }}
       become: '{{ luajit_escalate }}'
@@ -23,15 +23,15 @@
         path: '{{ luajit_parent_srcs_dir }}'
         state: directory
         mode: 0755
-    - name: unarchiving /tmp/{{ luajit_tgz }} to {{ luajit_parent_srcs_dir }}...
+    - name: unarchiving {{ luajit_tmp_tgz }} to {{ luajit_parent_srcs_dir }}...
       become: '{{ luajit_escalate }}'
       become_user: root
       unarchive:
         remote_src: yes
-        src: /tmp/{{ luajit_tgz }}
+        src: '{{ luajit_tmp_tgz }}'
         dest: '{{ luajit_parent_srcs_dir }}'
         creates: '{{ luajit_src_root_dir }}'
-    - name: building in {{luajit_src_root_dir }}...
+    - name: building in {{ luajit_src_root_dir }}...
       become: '{{ luajit_escalate }}'
       become_user: root
       command: make
@@ -46,12 +46,12 @@
         chdir: '{{ luajit_src_root_dir }}'
         creates: '{{ luajit_target_exe }}'
   always:
-    - name: destroying {{ luajit_src_root_dir }} and /tmp/{{ luajit_tgz }}....
+    - name: destroying {{ luajit_src_root_dir }} and {{ luajit_tmp_tgz }}...
       become: '{{ luajit_escalate }}'
       become_user: root
       with_items:
         - '{{ luajit_src_root_dir }}'
-        - /tmp/{{ luajit_tgz }}
+        - '{{ luajit_tmp_tgz }}'
       file:
         path: '{{ item }}'
         state: absent
