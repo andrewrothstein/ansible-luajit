@@ -1,6 +1,6 @@
 andrewrothstein.luajit
 =========
-[![Build Status](https://travis-ci.org/andrewrothstein/ansible-luajit.svg?branch=master)](https://travis-ci.org/andrewrothstein/ansible-luajit)
+![Build Status](https://github.com/andrewrothstein/ansible-luajit/actions/workflows/build.yml/badge.svg)
 
 Builds and installs [LuaJIT](https://luajit.org)
 
