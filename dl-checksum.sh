@@ -1,14 +1,21 @@
-#!/usr/bin/env sh
-VER=${1:-2.0.5}
+#!/usr/bin/env bash
+set -e
 DIR=~/Downloads
-TGZ=LuaJIT-${VER}.tar.gz
-LFILE=$DIR/$TGZ
-URL=http://luajit.org/download/$TGZ
+MIRROR=http://luajit.org/download
 
-if [ ! -e $LFILE ];
-then
-    wget -q -O $LFILE $URL
-fi
+dl_ver() {
+    local -r ver=$1
+    tgz="LuaJIT-${ver}.tar.gz"
+    lfile="${DIR}/${tgz}"
+    url="${MIRROR}/${tgz}"
 
-printf "  # %s\n" $URL
-printf "  '%s': sha256:%s\n" $VER $(sha256sum $LFILE | awk '{print $1}')
+    if [ ! -e $lfile ];
+    then
+        curl -sSLf -o $lfile $url
+    fi
+
+    printf "  # %s\n" $url
+    printf "  '%s': sha256:%s\n" $ver $(sha256sum $lfile | awk '{print $1}')
+}
+
+dl_ver ${1:-2.0.5}

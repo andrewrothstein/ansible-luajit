@@ -1,9 +1,9 @@
 ---
 # defaults file for luajit
-luajit_ver: '2.0.5'
+luajit_ver: 2.0.5
 luajit_mirror: http://luajit.org/download
 
-luajit_escalate: True
+luajit_escalate: true
 luajit_parent_srcs_dir: /usr/local/src
 
 luajit_checksums:
