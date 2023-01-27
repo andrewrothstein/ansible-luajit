@@ -1,10 +1,14 @@
 ---
 # tasks file for luajit
+- include_role:
+    name: andrewrothstein.unarchive-deps
+- include_role:
+    name: andrewrothstein.gcc-toolbox
 - name: look for luajit installation at {{ luajit_target_exe }}
-  become: yes
+  become: true
   stat:
     path: '{{ luajit_target_exe }}'
-  changed_when: False
+  changed_when: false
   register: luajit_binary
 - when: not luajit_binary.stat.exists
   block:
@@ -27,7 +31,7 @@
       become: '{{ luajit_escalate }}'
       become_user: root
       unarchive:
-        remote_src: yes
+        remote_src: true
         src: '{{ luajit_tmp_tgz }}'
         dest: '{{ luajit_parent_srcs_dir }}'
         creates: '{{ luajit_src_root_dir }}'

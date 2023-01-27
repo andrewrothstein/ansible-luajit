@@ -7,4 +7,3 @@
       register: luajit_test_output
     - debug:
         msg: '{{ luajit_test_output.stdout }}'
-  
