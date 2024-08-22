@@ -1,9 +1,13 @@
 ---
-- hosts: all
+- name: Testing andrewrothstein.luajit
+  hosts: all
   roles:
     - role: '{{ playbook_dir }}'
   tasks:
-    - command: /usr/local/bin/luajit -v
+    - name: Executing 'luajit -v'
+      ansible.builtin.command: luajit -v
+      changed_when: false
       register: luajit_test_output
-    - debug:
+    - name: Output from 'luajit -v'
+      ansible.builtin.debug:
         msg: '{{ luajit_test_output.stdout }}'

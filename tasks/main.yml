@@ -1,61 +1,46 @@
 ---
 # tasks file for luajit
-- include_role:
-    name: andrewrothstein.unarchive-deps
-- include_role:
-    name: andrewrothstein.gcc-toolbox
-- name: look for luajit installation at {{ luajit_target_exe }}
+- name: Installing andrewrothstein.git
+  ansible.builtin.include_role:
+    name: andrewrothstein.git
+- name: Installing andrewrothstein.gcc_toolbox
+  ansible.builtin.include_role:
+    name: andrewrothstein.gcc_toolbox
+- name: Look for luajit installation at {{ luajit_target_exe }}
   become: true
-  stat:
+  ansible.builtin.stat:
     path: '{{ luajit_target_exe }}'
   changed_when: false
   register: luajit_binary
-- when: not luajit_binary.stat.exists
+- name: Cloning, building, and installing luajit from source
+  when: not luajit_binary.stat.exists
   block:
-    - name: downloading {{ luajit_tgz }}...
+    - name: Mkdir {{ luajit_parent_srcs_dir }}
       become: '{{ luajit_escalate }}'
       become_user: root
-      get_url:
-        url: '{{ luajit_url }}'
-        checksum: '{{ luajit_checksum }}'
-        dest: '{{ luajit_tmp_tgz }}'
-        mode: 0644
-    - name: mkdir {{ luajit_parent_srcs_dir }}
-      become: '{{ luajit_escalate }}'
-      become_user: root
-      file:
+      ansible.builtin.file:
         path: '{{ luajit_parent_srcs_dir }}'
         state: directory
-        mode: 0755
-    - name: unarchiving {{ luajit_tmp_tgz }} to {{ luajit_parent_srcs_dir }}...
+        mode: '755'
+    - name: Cloning {{ luajit_remote }}@{{ luajit_ver }}
       become: '{{ luajit_escalate }}'
       become_user: root
-      unarchive:
-        remote_src: true
-        src: '{{ luajit_tmp_tgz }}'
-        dest: '{{ luajit_parent_srcs_dir }}'
-        creates: '{{ luajit_src_root_dir }}'
-    - name: building in {{ luajit_src_root_dir }}...
+      ansible.builtin.git:
+        repo: '{{ luajit_remote }}'
+        version: '{{ luajit_ver }}'
+        dest: '{{ luajit_src_root_dir }}'
+    - name: Building in {{ luajit_src_root_dir }}...
       become: '{{ luajit_escalate }}'
       become_user: root
-      command: make
+      ansible.builtin.command: make
       args:
         chdir: '{{ luajit_src_root_dir }}'
         creates: '{{ luajit_src_root_dir }}/src/luajit'
-    - name: installing from {{ luajit_src_root_dir }}...
+    - name: Installing from {{ luajit_src_root_dir }}...
       become: '{{ luajit_escalate }}'
       become_user: root
-      command: make install
+      ansible.builtin.command: make install
       args:
         chdir: '{{ luajit_src_root_dir }}'
         creates: '{{ luajit_target_exe }}'
-  always:
-    - name: destroying {{ luajit_src_root_dir }} and {{ luajit_tmp_tgz }}...
-      become: '{{ luajit_escalate }}'
-      become_user: root
-      with_items:
-        - '{{ luajit_src_root_dir }}'
-        - '{{ luajit_tmp_tgz }}'
-      file:
-        path: '{{ item }}'
-        state: absent
+#- name: Linking exe

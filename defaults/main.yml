@@ -1,13 +1,7 @@
 ---
 # defaults file for luajit
-luajit_ver: 2.0.5
-luajit_mirror: http://luajit.org/download
+luajit_ver: v2.1.ROLLING
+luajit_remote: https://luajit.org/git/luajit.git
 
 luajit_escalate: true
 luajit_parent_srcs_dir: /usr/local/src
-
-luajit_checksums:
-  # http://luajit.org/download/LuaJIT-2.0.4.tar.gz
-  '2.0.4': sha256:620fa4eb12375021bef6e4f237cbd2dd5d49e56beb414bee052c746beef1807d
-  # http://luajit.org/download/LuaJIT-2.0.5.tar.gz
-  '2.0.5': sha256:874b1f8297c697821f561f9b73b57ffd419ed8f4278c82e05b48806d30c1e979
