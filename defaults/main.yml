@@ -1,6 +1,6 @@
 ---
 # defaults file for luajit
-luajit_ver: v2.1.ROLLING
+luajit_ver: '2.1'
 luajit_remote: https://luajit.org/git/luajit.git
 
 luajit_escalate: true

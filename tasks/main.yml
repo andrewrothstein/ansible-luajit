@@ -6,41 +6,44 @@
 - name: Installing andrewrothstein.gcc_toolbox
   ansible.builtin.include_role:
     name: andrewrothstein.gcc_toolbox
-- name: Look for luajit installation at {{ luajit_target_exe }}
-  become: true
-  ansible.builtin.stat:
-    path: '{{ luajit_target_exe }}'
-  changed_when: false
-  register: luajit_binary
-- name: Cloning, building, and installing luajit from source
-  when: not luajit_binary.stat.exists
-  block:
-    - name: Mkdir {{ luajit_parent_srcs_dir }}
-      become: '{{ luajit_escalate }}'
-      become_user: root
-      ansible.builtin.file:
-        path: '{{ luajit_parent_srcs_dir }}'
-        state: directory
-        mode: '755'
-    - name: Cloning {{ luajit_remote }}@{{ luajit_ver }}
-      become: '{{ luajit_escalate }}'
-      become_user: root
-      ansible.builtin.git:
-        repo: '{{ luajit_remote }}'
-        version: '{{ luajit_ver }}'
-        dest: '{{ luajit_src_root_dir }}'
-    - name: Building in {{ luajit_src_root_dir }}...
-      become: '{{ luajit_escalate }}'
-      become_user: root
-      ansible.builtin.command: make
-      args:
-        chdir: '{{ luajit_src_root_dir }}'
-        creates: '{{ luajit_src_root_dir }}/src/luajit'
-    - name: Installing from {{ luajit_src_root_dir }}...
-      become: '{{ luajit_escalate }}'
-      become_user: root
-      ansible.builtin.command: make install
-      args:
-        chdir: '{{ luajit_src_root_dir }}'
-        creates: '{{ luajit_target_exe }}'
-#- name: Linking exe
+- name: Mkdir {{ luajit_parent_srcs_dir }}
+  become: '{{ luajit_escalate }}'
+  become_user: root
+  ansible.builtin.file:
+    path: '{{ luajit_parent_srcs_dir }}'
+    state: directory
+    mode: '755'
+- name: Cloning {{ luajit_remote }}@{{ luajit_branch }}
+  become: '{{ luajit_escalate }}'
+  become_user: root
+  ansible.builtin.git:
+    repo: '{{ luajit_remote }}'
+    version: '{{ luajit_branch }}'
+    dest: '{{ luajit_src_root_dir }}'
+- name: Building in {{ luajit_src_root_dir }}...
+  become: '{{ luajit_escalate }}'
+  become_user: root
+  ansible.builtin.command: make
+  args:
+    chdir: '{{ luajit_src_root_dir }}'
+    creates: '{{ luajit_src_root_dir }}/src/luajit'
+- name: Reading relver
+  become: '{{ luajit_escalate }}'
+  become_user: root
+  ansible.builtin.slurp:
+    src: '{{ luajit_relver_txt }}'
+  register: luajit_relver
+- name: Installing from {{ luajit_src_root_dir }}...
+  become: '{{ luajit_escalate }}'
+  become_user: root
+  ansible.builtin.command: make install
+  args:
+    chdir: '{{ luajit_src_root_dir }}'
+    creates: '{{ luajit_target_exe }}'
+- name: Linking {{ luajit_target_link }} to {{ luajit_target_exe }}
+  become: '{{ luajit_escalate }}'
+  become_user: root
+  ansible.builtin.file:
+    src: '{{ luajit_target_exe }}'
+    dest: '{{ luajit_target_link }}'
+    state: link
