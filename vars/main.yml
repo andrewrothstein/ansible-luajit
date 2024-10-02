@@ -1,9 +1,7 @@
 ---
 # vars file for luajit
-luajit_name: LuaJIT-{{ luajit_ver }}
-luajit_tgz: '{{ luajit_name }}.tar.gz'
-luajit_tmp_tgz: /tmp/{{ luajit_tgz }}
-luajit_url: http://luajit.org/download/{{ luajit_tgz }}
-luajit_src_root_dir: '{{ luajit_parent_srcs_dir }}/{{ luajit_name }}'
-luajit_checksum: '{{ luajit_checksums[luajit_ver] }}'
-luajit_target_exe: /usr/local/bin/luajit
+luajit_branch: v{{ luajit_ver }}.ROLLING
+luajit_src_root_dir: '{{ luajit_parent_srcs_dir }}/LuaJIT-{{ luajit_branch }}'
+luajit_relver_txt: '{{ luajit_src_root_dir }}/src/luajit_relver.txt'
+luajit_target_exe: /usr/local/bin/luajit-{{ luajit_ver }}.{{ luajit_relver.content | b64decode | trim }}
+luajit_target_link: /usr/local/bin/luajit
